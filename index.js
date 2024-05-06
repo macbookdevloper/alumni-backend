@@ -1,12 +1,29 @@
-const express = require("express");
 require("dotenv").config();
-const databaseConnection=require('./config/DBConnection');
-
+const express = require("express");
+const cors = require("cors");
+const databaseConnection = require("./config/DBConnection");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT,()=>{
-    console.log(`server start on ${PORT}`);
-})
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+  })
+);
+app.use(
+  express.json({
+    limit: "20kb",
+  })
+);
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit: "20kb",
+  })
+);
 
-databaseConnection();
+databaseConnection().then(() => {
+  app.listen(PORT, () => {
+    console.log(`server start on ${PORT}`);
+  });
+});

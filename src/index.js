@@ -1,10 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const databaseConnection = require("./config/DBConnection");
+const databaseConnection = require("../src/config/DBConnection");
+const routes = require("../src/routes/user");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+app.use("/v1", routes);
+app.use(express.static("public"));
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,

@@ -18,8 +18,14 @@ const NewAlumniSchema = new mongoose.Schema({
     type: String,
     enum: ["Admin", "Alumni"],
   },
+  Login: {
+    type: Boolean,
+    require: true,
+  },
+  Email:{
+    type:String,
+    require:true,
+  }
 });
 
-module.exports=mongoose.model('NewAlumniModel',NewAlumniSchema);
-
-
+module.exports = mongoose.model("NewAlumniModel", NewAlumniSchema);

@@ -2,6 +2,8 @@ const XLSX = require("xlsx");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
 const NewAlumniModel = require("../model/NewAlumni");
+const mailSender = require("../utils/mailSender");
+const { alumniInvite } = require("../mail/templates/alumniInvite");
 
 const CreateNewAlumni = async (req, res) => {
   try {
@@ -16,13 +18,13 @@ const CreateNewAlumni = async (req, res) => {
     const dataArray = jsonData["Sheet1"];
 
     for (const data of dataArray) {
-      data.Password = await bcrypt.hash(data.Password, 10);
       const alumni = new NewAlumniModel(data);
       await alumni.save();
     }
 
     const addModelData = await NewAlumniModel.find({});
     res.status(200).json({
+      success: true,
       message: "File uploaded successfully",
       data: addModelData,
     });
@@ -30,7 +32,40 @@ const CreateNewAlumni = async (req, res) => {
     deleteFile(filePath);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+};
+
+const sendInvations = async (req, res) => {
+  try {
+    console.log("hii");
+    const allData = await NewAlumniModel.find({});
+    for (const data of allData) {
+      const responeseData = await mailSender(
+        data.Email,
+        "invitionEmail",
+        alumniInvite(data.EnrollementNumber, data.Password)
+      );
+      Password = await bcrypt.hash(data.Password, 10);
+      await NewAlumniModel.findOneAndUpdate(
+        { EnrollementNumber: data.EnrollementNumber },
+        { $set: {Password:Password}},
+        { new: true }
+      );
+    }
+    res.status(202).json({
+      success: true,
+      message: "all mail is send",
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      message: "email is not send ",
+      err: error,
+    });
   }
 };
 
@@ -57,6 +92,4 @@ const deleteFile = (filePath) => {
   });
 };
 
-module.exports = { CreateNewAlumni };
-
-
+module.exports = { CreateNewAlumni, sendInvations };

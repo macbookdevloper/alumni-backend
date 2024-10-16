@@ -3,8 +3,10 @@ const routes = express();
 const { multerMiddleware } = require("../middleware/multer");
 const { CreateNewAlumni,sendInvations } = require("../controller/CreateAccount");
 
+//  Upload Email File API
+routes.post("/upload", multerMiddleware.single("details"), CreateNewAlumni);
 
-routes.post("/upload", multerMiddleware.single("file"), CreateNewAlumni);
-routes.post('/api/sendInvitaion',sendInvations);
+//  Send Email API
+routes.post('/sendInvitaion',sendInvations);
 
-module.exports = routes;
+module.exports = routes

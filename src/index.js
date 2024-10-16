@@ -2,31 +2,30 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const databaseConnection = require("../src/config/DBConnection");
-const routes = require("../src/routes/admin");
+const adminRoutes = require("../src/routes/admin");
+const alumniRoutes = require("../src/routes/alumni_routes");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use("/v1", routes);
-app.use(express.static("public"));
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-  })
-);
-app.use(
-  express.json({
-    limit: "20kb",
-  })
-);
-app.use(
-  express.urlencoded({
-    extended: true,
-    limit: "20kb",
-  })
-);
+// Setup CORS
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+}));
 
+// Setup JSON and URL-encoded middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files
+app.use(express.static("public"));
+
+// Use routes
+app.use("/v1", adminRoutes);
+app.use("/v2", alumniRoutes);
+
+// Connect to the database and start the server
 databaseConnection().then(() => {
   app.listen(PORT, () => {
-    console.log(`server start on ${PORT}`);
+    console.log(`server started on port ${PORT}`);
   });
 });

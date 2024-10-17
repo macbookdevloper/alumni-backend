@@ -1,8 +1,12 @@
+
 const multer = require("multer");
+require("dotenv").config();
+const filePath=`${process.env.EXLS_FILE}/UserData`;
+console.log(filePath)
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/Users/akmalalikadiwala/Desktop/Alumni Management/public/ProfilePhoto/");
+    cb(null,filePath);
   },
   filename: function (req, file, cb) {
     const allowedExtensions = [

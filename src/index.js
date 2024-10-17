@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const databaseConnection = require("../src/config/DBConnection");
 const adminRoutes = require("../src/routes/admin");
-const alumniRoutes = require("../src/routes/alumni_routes");
+const alumniRoutes = require("../src/routes/alumniRoutes");
 const app = express();
 const PORT = process.env.PORT || 8080;
 

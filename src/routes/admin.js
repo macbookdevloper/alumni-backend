@@ -1,7 +1,7 @@
 const express = require("express");
 const routes = express();
 const { multerMiddleware } = require("../middleware/multer");
-const { CreateNewAlumni,sendInvations } = require("../controller/CreateAccount");
+const { CreateNewAlumni,sendInvations } = require("../controller/createAccountController");
 
 //demo comment from bilal side
 //  Upload Email File API

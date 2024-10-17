@@ -22,11 +22,10 @@ const mailSender = async (email, title, body) => {
     return info;
   } catch (error) {
     console.log(error.message);
+    console.log("error define");
     return error.message;
   }
 };
-
-
 
 const send_mail_password = async (enrollementNumber, email, token) => {
   try {
@@ -43,10 +42,9 @@ const send_mail_password = async (enrollementNumber, email, token) => {
       from: `"Studynotion | CodeHelp" <${process.env.MAIL_USER}>`, // sender address
       to: `${email}`, // list of receivers
       subject: "Forgot Password Link",
-      html: `Hi ${enrollementNumber},<br><br>Please click the link below to reset your password:<br><a href="http://localhost:3001/v2/reset/${token}">Reset Password</a>`
-
+      html: `Hi ${enrollementNumber},<br><br>Please click the link below to reset your password:<br><a href="http://localhost:3001/v2/reset/${token}">Reset Password</a>`,
     });
-      
+
     console.log(info.response);
     return info;
   } catch (error) {
@@ -57,6 +55,6 @@ const send_mail_password = async (enrollementNumber, email, token) => {
 
 module.exports = {
   mailSender,
-  send_mail_password
-}
+  send_mail_password,
+};
 // module.exports = mailSender

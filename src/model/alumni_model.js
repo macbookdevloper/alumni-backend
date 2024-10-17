@@ -91,7 +91,8 @@ const AlumniDetailsSchema = new mongoose.Schema({
   ],
   token:{
     type : String,
-    default : ''
+    default : '',
+    expires: '2h',
   }
 });
 

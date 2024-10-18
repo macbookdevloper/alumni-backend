@@ -220,7 +220,6 @@ async function alumniDetailById(req, res) {
   try {
     const id = req.params.id;
     const alumni_By_Id = await AlumniDetails.findOne({ enrollementNumber: id });
-    // console.log(alumniDetailById.enrollementNumber);  // why is undefined
     if (alumni_By_Id) {
       if (alumni_By_Id.login === true) {
         return res.status(200).json({

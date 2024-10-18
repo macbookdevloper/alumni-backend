@@ -53,7 +53,7 @@ const postStorage = multer.diskStorage({
 });
 const profileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, `${filePath}/AlumniPost`);
+    cb(null, `${filePath}/ProfilePhoto`);
   },
   filename: function (req, file, cb) {
     const allowedExtensions = [

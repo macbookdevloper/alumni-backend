@@ -86,7 +86,7 @@ const addProfileDetails = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        alumni,
+        data:alumni,
         message: "User registered successfully",
       });
     } else {

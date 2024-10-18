@@ -46,17 +46,19 @@ const sendInvations = async (req, res) => {
     const salt = 10;
     const allData = await alumniModel.find({});
     for (const data of allData) {
-      const responeseData = await mailFile.mailSender(
-        data.email,
-        "invitionEmail",
-        alumniInvite(data.enrollementNumber, data.password)
-      );
-      password = await bcrypt.hash(data.password, salt);
-      await alumniModel.findOneAndUpdate(
-        { enrollementNumber: data.enrollementNumber },
-        { $set: { password: password } },
-        { new: true }
-      );
+      if(data.login===false){
+        const responeseData = await mailFile.mailSender(
+          data.email,
+          "invitionEmail",
+          alumniInvite(data.enrollementNumber, data.password)
+        );
+        password = await bcrypt.hash(data.password, salt);
+        await alumniModel.findOneAndUpdate(
+          { enrollementNumber: data.enrollementNumber },
+          { $set: { password: password } },
+          { new: true }
+        );
+      }
     }
     res.status(202).json({
       success: true,

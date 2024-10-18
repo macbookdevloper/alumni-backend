@@ -1,13 +1,13 @@
 const express = require("express");
 const routes = express();
-const { multerMiddleware, postupload } = require("../middleware/multer");
+const { postUpload,profileUpload } = require("../middleware/multer");
 const alumni_function = require("../controller/alumni_controller");
 const {
   login,
   forgotPassword,
   resetPassword,
 } = require("../controller/authControllers");
-
+const { addProfileDetails } = require("../controller/profileControllers");
 
 //-------authControllers-----------
 //  Alumni Login Routes.
@@ -17,21 +17,17 @@ routes.post("/forgotPassword", forgotPassword);
 // Reset Password
 routes.put("/resetpassword/:token", resetPassword);
 
-
-
-
-
 //  Alumni SignUp Routes.
 routes.post(
   "/addDetails",
-  multerMiddleware.single("image"),
-  alumni_function.addProfileDetails
+  profileUpload.single("image"),
+  addProfileDetails
 );
 
 //  Alumni Post there image and Discription of image.
 routes.post(
   "/alumnipost/:id",
-  postupload.single("alumnipost"),
+  postUpload.single("alumnipost"),
   alumni_function.alumnipost
 );
 

@@ -244,62 +244,6 @@ async function alumniDetailById(req, res) {
   }
 }
 
-async function forgot_password(req, res) {
-  const is_user_exist = await AlumniDetails.findOne({ email: req.body.email });
-  if (is_user_exist) {
-    const randomString = random.generate();
-    const data = await AlumniDetails.updateOne(
-      { email: req.body.email },
-      { $set: { token: randomString } }
-    );
-    send_mail_password(
-      is_user_exist.enrollementNumber,
-      is_user_exist.email,
-      randomString
-    );
-    // console.log(typeof(is_user_exist.enrollementNumber));
-    res.status(200).json({
-      status: true,
-      message: "Check your Email",
-    });
-  } else {
-    res.status(400).json({
-      status: false,
-      message: "Email is not exit",
-    });
-  }
-}
-
-async function reset_password(req, res) {
-  try {
-    const token = req.params.token;
-    console.log(token);
-
-    const tokenData = await AlumniDetails.findOne({ token: token });
-    if (tokenData) {
-      const password = req.body.password;
-      const hash_password = await bcrypt.hash(password, 10);
-      const userInfo = await AlumniDetails.findByIdAndUpdate(
-        { _id: tokenData._id },
-        { $set: { password: hash_password, token: "" } },
-        { new: true }
-      );
-      res.status(200).json({
-        status: true,
-        userInfo: {
-          info: userInfo,
-        },
-      });
-    } else {
-      res.status(400).json({
-        status: false,
-        message: "Link is Expire",
-      });
-    }
-  } catch (error) {
-    res.status(400).json({ error: error });
-  }
-}
 
 module.exports = {
   addProfileDetails,
@@ -307,6 +251,4 @@ module.exports = {
   alumnipost,
   getallAlumni,
   alumniDetailById,
-  forgot_password,
-  reset_password,
 };

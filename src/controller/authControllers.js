@@ -51,8 +51,8 @@ async function forgotPassword(req, res) {
     });
   }
   const randomString = random.generate();
-  const alumniData=await alumniModel.findOne({email:req.body.email});
-  const data = await alumniModel.updateOne(
+  const alumniData = await alumniModel.findOne({ email: req.body.email });
+  await alumniModel.updateOne(
     { email: req.body.email },
     { $set: { token: randomString } }
   );
@@ -61,7 +61,6 @@ async function forgotPassword(req, res) {
     "resetPassword",
     resetPasswordMail(randomString, alumniData.firstName)
   );
-  // console.log(typeof(is_user_exist.enrollementNumber));
   res.status(200).json({
     status: true,
     message: "Check your Email",

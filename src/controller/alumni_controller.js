@@ -1,12 +1,6 @@
 const bcrypt = require("bcryptjs");
 const AlumniDetails = require("../model/alumni_model");
-const jwt = require("jsonwebtoken");
-const random = require("randomstring");
-const { send_mail_password } = require("../utils/mailSender");
-// const { use } = require("../routes/alumni_routes");
 require("dotenv").config();
-
-//this is thew demo comment to merge with main brach
 
 // SignUp API
 const addProfileDetails = async (req, res) => {
@@ -193,7 +187,7 @@ async function alumnipost(req, res) {
 
 //  Get all Alumni detail(Name, profilePhoto, Skills)
 
-async function getallAlumni(req, res) {
+async function getallAlumni(res) {
   try {
     // const all_alumni = await AlumniDetails.find()
     // const loggedInAlumni = all_alumni.filter(alumni => alumni.login === false);

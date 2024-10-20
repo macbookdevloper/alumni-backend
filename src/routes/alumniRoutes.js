@@ -7,7 +7,9 @@ const {
   forgotPassword,
   resetPassword,
 } = require("../controller/authControllers");
+
 const { addProfileDetails } = require("../controller/profileControllers");
+
 const {
   getallAlumni,
   getDetailsById,

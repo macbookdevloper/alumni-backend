@@ -51,6 +51,8 @@ const postStorage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
+
+// Profile Photos.
 const profileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, `${filePath}/ProfilePhoto`);
@@ -80,12 +82,46 @@ const profileStorage = multer.diskStorage({
   },
 });
 
+// News Image
+
+const newsImage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, `${filePath}/NewsImage`);
+  },
+  filename: function (req, file, cb) {
+    const allowedExtensions = [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".bmp",
+      ".tiff",
+      ".heic",
+    ];
+    const fileExtension = file.originalname
+      .slice(file.originalname.lastIndexOf("."))
+      .toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      return cb(
+        new Error(
+          "Only .jpg or .jpeg .png .gif .bmp .tiff and .heic files are allowed!"
+        ),
+        false
+      );
+    }
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+
 const uploadCsvFile = multer({ storage: csvStorage });
 const postUpload = multer({ storage: postStorage });
 const profileUpload = multer({ storage: profileStorage });
+const newsImageupload = multer({storage: newsImage});
 
 module.exports = {
   uploadCsvFile,
   postUpload,
   profileUpload,
+  newsImageupload
 };

@@ -47,7 +47,6 @@ const addProfileDetails = async (req, res) => {
       });
     }
 
-    // If alumni dont want to change there Email. & after check email is unique.
     const userDetails = await alumniModel.findOne({
       enrollementNumber: enrollementNumber,
     });
@@ -75,18 +74,24 @@ const addProfileDetails = async (req, res) => {
         },
         { new: true }
       );
+      
       if (companyName && position && workingExperience) {
-        alumniModel.company.push({
+        // Ensure alumni.company is initialized as an array
+        if (!alumni.company) {
+          alumni.company = [];
+        }
+        alumni.company.push({
           companyName,
           position,
           workingExperience,
         });
-        await alumniModel.save(); // Save the updated company information
+        await alumni.save(); // Save the updated company information
       }
 
+      console.log("User Register Succesfully");
       return res.status(200).json({
         success: true,
-        data:alumni,
+        data: alumni,
         message: "User registered successfully",
       });
     } else {
@@ -99,10 +104,9 @@ const addProfileDetails = async (req, res) => {
     return res.status(500).json({
       error: console.log(error),
       success: false,
-      message: "Alumni details cannot be add. Please try again.",
+      message: "Alumni details cannot be added. Please try again.",
     });
   }
 };
-// Comment
 
 module.exports = { addProfileDetails };

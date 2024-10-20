@@ -1,13 +1,17 @@
 const express = require("express");
 const routes = express();
-const { uploadCsvFile } = require("../middleware/multer");
+const { uploadCsvFile, newsImageupload} = require("../middleware/multer");
 const { CreateNewAlumni,sendInvations } = require("../controller/createAccountController");
+// const createNewsController = require('../controller/createNews')
+const {createNews} = require('../controller/createNews')
 
-//demo comment from bilal side
-//  Upload Email File API
+// Upload Email File API.
 routes.post("/upload", uploadCsvFile.single("details"), CreateNewAlumni);
 
-//  Send Email API
+// Send Email API.
 routes.post('/sendInvitaion',sendInvations);
+
+// News API.
+routes.post('/newscreate',newsImageupload.single("newsimage"),createNews);
 
 module.exports = routes

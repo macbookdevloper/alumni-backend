@@ -9,9 +9,9 @@ const {createNews} = require('../controller/createNews')
 routes.post("/upload", uploadCsvFile.single("details"), CreateNewAlumni);
 
 // Send Email API.
-routes.post('/sendInvitaion',sendInvations);
+routes.post('/sendInvitaion', sendInvations);
 
 // News API.
-routes.post('/newscreate',newsImageupload.single("newsimage"),createNews);
+routes.post('/newscreate', newsImageupload.single("newsimage"),createNews);
 
 module.exports = routes
